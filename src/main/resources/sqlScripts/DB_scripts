@@ -1,0 +1,83 @@
+CREATE TABLE `authorities` (
+  `authorityId` int(11) NOT NULL AUTO_INCREMENT,
+  `authorities` varchar(255) DEFAULT NULL,
+  `emailId` varchar(255) DEFAULT NULL,
+  `USERNAME` int(11) DEFAULT NULL,
+  PRIMARY KEY (`authorityId`),
+  KEY `FK8w2newnyu9dk552fgnapdp3i3` (`USERNAME`),
+  CONSTRAINT `FK8w2newnyu9dk552fgnapdp3i3` FOREIGN KEY (`USERNAME`) REFERENCES `users` (`userid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `billingaddress` (
+  `billingAddressid` int(11) NOT NULL AUTO_INCREMENT,
+  `address` varchar(255) DEFAULT NULL,
+  `city` varchar(255) DEFAULT NULL,
+  `country` varchar(255) DEFAULT NULL,
+  `state` varchar(255) DEFAULT NULL,
+  `zipcode` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`billingAddressid`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+CREATE TABLE `cart` (
+  `cartid` int(11) NOT NULL AUTO_INCREMENT,
+  `total_price` double DEFAULT NULL,
+  `customerId` int(11) DEFAULT NULL,
+  PRIMARY KEY (`cartid`),
+  KEY `FK61b13xd3epu1lxhphpgoa58wn` (`customerId`),
+  CONSTRAINT `FK61b13xd3epu1lxhphpgoa58wn` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerid`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+CREATE TABLE `cartitem` (
+  `cart_item_id` int(11) NOT NULL AUTO_INCREMENT,
+  `price` double DEFAULT NULL,
+  `quality` int(11) DEFAULT NULL,
+  `cartId` int(11) DEFAULT NULL,
+  `productId` int(11) DEFAULT NULL,
+  PRIMARY KEY (`cart_item_id`),
+  KEY `FKqwjiex7c2l8l6r5iduyqb2e01` (`cartId`),
+  KEY `FKpcx4555jchy4563tmbbjyjs4f` (`productId`),
+  CONSTRAINT `FKpcx4555jchy4563tmbbjyjs4f` FOREIGN KEY (`productId`) REFERENCES `item` (`product_id`),
+  CONSTRAINT `FKqwjiex7c2l8l6r5iduyqb2e01` FOREIGN KEY (`cartId`) REFERENCES `cart` (`cartid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `customer` (
+  `customerid` int(11) NOT NULL AUTO_INCREMENT,
+  `phone_no` int(11) DEFAULT NULL,
+  `first_name` varchar(255) DEFAULT NULL,
+  `last_name` varchar(255) DEFAULT NULL,
+  `billingAddressId` int(11) DEFAULT NULL,
+  `cartId` int(11) DEFAULT NULL,
+  `shippingAddressId` int(11) DEFAULT NULL,
+  `userId` int(11) DEFAULT NULL,
+  PRIMARY KEY (`customerid`),
+  KEY `FK95dxtkeffc5gtse7wsiy7xiw5` (`billingAddressId`),
+  KEY `FKfrlxfkkf7ibdofqnhvknvkipy` (`cartId`),
+  KEY `FKt4k4gqltmjrikayrnjtqk6skc` (`shippingAddressId`),
+  KEY `FKb7maw6xyp9ahw4oyqfmmhrim7` (`userId`),
+  CONSTRAINT `FK95dxtkeffc5gtse7wsiy7xiw5` FOREIGN KEY (`billingAddressId`) REFERENCES `billingaddress` (`billingAddressid`),
+  CONSTRAINT `FKb7maw6xyp9ahw4oyqfmmhrim7` FOREIGN KEY (`userId`) REFERENCES `users` (`userid`),
+  CONSTRAINT `FKfrlxfkkf7ibdofqnhvknvkipy` FOREIGN KEY (`cartId`) REFERENCES `cart` (`cartid`),
+  CONSTRAINT `FKt4k4gqltmjrikayrnjtqk6skc` FOREIGN KEY (`shippingAddressId`) REFERENCES `shippingaddress` (`shippingAddressid`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+CREATE TABLE `item` (
+  `product_id` int(11) NOT NULL AUTO_INCREMENT,
+  `category` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `manufacturer` varchar(255) DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `price` double NOT NULL,
+  `unit` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `shippingaddress` (
+  `shippingAddressid` int(11) NOT NULL AUTO_INCREMENT,
+  `address` varchar(255) DEFAULT NULL,
+  `city` varchar(255) DEFAULT NULL,
+  `country` varchar(255) DEFAULT NULL,
+  `state` varchar(255) DEFAULT NULL,
+  `zipcode` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`shippingAddressid`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+CREATE TABLE `users` (
+  `userid` int(11) NOT NULL AUTO_INCREMENT,
+  `email_id` varchar(255) DEFAULT NULL,
+  `is_enabled` bit(1) DEFAULT NULL,
+  `password` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`userid`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
